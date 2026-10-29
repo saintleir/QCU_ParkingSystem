@@ -146,7 +146,16 @@ public class DashboardFrame extends JFrame {
                 new GanttFrame();
                 }
         });
+        
+        addWindowListener(
+                new java.awt.event.WindowAdapter() {
 
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+
+                        autoExitAllVehicles();
+                    }
+                });
+        
         setVisible(true);
     }
     
@@ -435,6 +444,64 @@ public class DashboardFrame extends JFrame {
         JOptionPane.showMessageDialog(this, report, "Parking Availability Report", occupancy >= 90
                         ? JOptionPane.WARNING_MESSAGE
                         : JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private void autoExitAllVehicles() {
+
+        try {
+
+            Connection conn = DatabaseConnection.getConnection();
+
+            String selectSql =
+                    "SELECT plate, time_in " +
+                    "FROM parking_report " +
+                    "WHERE status='PARKED'";
+
+            PreparedStatement selectPst = conn.prepareStatement(selectSql);
+
+            ResultSet rs = selectPst.executeQuery();
+
+            while(rs.next()) {
+
+                String plate = rs.getString("plate");
+
+                Timestamp timeIn = rs.getTimestamp("time_in");
+
+                Timestamp timeOut = new Timestamp(System.currentTimeMillis());
+
+                long millis = timeOut.getTime() - timeIn.getTime();
+
+                long hours = millis / (1000 * 60 * 60);
+
+                long minutes = (millis / (1000 * 60)) % 60;
+
+                String duration = hours + "h " + minutes + "m";
+
+                String updateSql =
+                        "UPDATE parking_records " +
+                        "SET time_out=?, " +
+                        "duration=?, " +
+                        "status='EXITED' " +
+                        "WHERE plate=? " +
+                        "AND status='PARKED'";
+
+                PreparedStatement updatePst = conn.prepareStatement(updateSql);
+
+                updatePst.setTimestamp(1, timeOut);
+
+                updatePst.setString(2, duration);
+
+                updatePst.setString(3, plate);
+
+                updatePst.executeUpdate();
+            }
+
+            conn.close();
+
+        } catch(Exception e) {
+
+            e.printStackTrace();
+        }
     }
 
     private void resetForm() {
