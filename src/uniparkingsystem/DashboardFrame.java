@@ -143,18 +143,18 @@ public class DashboardFrame extends JFrame {
         btnTimeline.addActionListener(new ActionListener() {
 
              public void actionPerformed(ActionEvent e) {
-                new GanttFrame();
+            	new GanttFrame();
                 }
         });
         
         addWindowListener(
                 new java.awt.event.WindowAdapter() {
 
-                    public void windowClosing(java.awt.event.WindowEvent e) {
+                public void windowClosing(java.awt.event.WindowEvent e) {
 
-                        autoExitAllVehicles();
-                    }
-                });
+                   autoExitAllVehicles();
+                }
+        });
         
         setVisible(true);
     }
@@ -453,7 +453,7 @@ public class DashboardFrame extends JFrame {
             Connection conn = DatabaseConnection.getConnection();
 
             String selectSql =
-                    "SELECT plate, time_in " +
+                    "SELECT id, plate, time_in " +
                     "FROM parking_report " +
                     "WHERE status='PARKED'";
 
@@ -463,27 +463,27 @@ public class DashboardFrame extends JFrame {
 
             while(rs.next()) {
 
-                String plate = rs.getString("plate");
+                int id = rs.getInt("id");
 
                 Timestamp timeIn = rs.getTimestamp("time_in");
 
-                Timestamp timeOut = new Timestamp(System.currentTimeMillis());
+                Timestamp timeOut = new Timestamp(
+                                System.currentTimeMillis());
 
-                long millis = timeOut.getTime() - timeIn.getTime();
+                long milliseconds = timeOut.getTime() - timeIn.getTime();
 
-                long hours = millis / (1000 * 60 * 60);
+                long hours = milliseconds / (1000 * 60 * 60);
 
-                long minutes = (millis / (1000 * 60)) % 60;
+                long minutes = (milliseconds / (1000 * 60)) % 60;
 
                 String duration = hours + "h " + minutes + "m";
 
                 String updateSql =
-                        "UPDATE parking_records " +
+                        "UPDATE parking_report " +
                         "SET time_out=?, " +
                         "duration=?, " +
                         "status='EXITED' " +
-                        "WHERE plate=? " +
-                        "AND status='PARKED'";
+                        "WHERE id=?";
 
                 PreparedStatement updatePst = conn.prepareStatement(updateSql);
 
@@ -491,11 +491,15 @@ public class DashboardFrame extends JFrame {
 
                 updatePst.setString(2, duration);
 
-                updatePst.setString(3, plate);
+                updatePst.setInt(3, id);
 
                 updatePst.executeUpdate();
+
+                updatePst.close();
             }
 
+            rs.close();
+            selectPst.close();
             conn.close();
 
         } catch(Exception e) {
