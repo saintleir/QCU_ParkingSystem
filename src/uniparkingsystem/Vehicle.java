@@ -14,9 +14,7 @@ public class Vehicle {
 
     private boolean parked;
 
-    public Vehicle(String owner,
-                   String plateNumber,
-                   String vehicleType) {
+    public Vehicle(String owner, String plateNumber, String vehicleType) {
 
         this.owner = owner;
         this.plateNumber = plateNumber;
@@ -58,13 +56,11 @@ public class Vehicle {
 
     public String getDuration() {
 
-        LocalDateTime end =
-                (timeOut == null)
-                        ? LocalDateTime.now()
-                        : timeOut;
+        LocalDateTime end = (timeOut == null)
+                ? LocalDateTime.now()
+                : timeOut;
 
-        Duration duration =
-                Duration.between(timeIn, end);
+        Duration duration = Duration.between(timeIn, end);
 
         long hours = duration.toHours();
         long minutes = duration.toMinutes() % 60;

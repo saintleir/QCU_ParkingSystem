@@ -16,91 +16,62 @@ public class GanttFrame extends JFrame {
         setSize(700, 500);
         setLocationRelativeTo(null);
 
-        JTextArea area =
-                new JTextArea();
+        JTextArea area = new JTextArea();
 
-        area.setEditable(false);
+        	area.setEditable(false);
+        	area.setFont(
+            new Font("Monospaced", Font.PLAIN, 14));
 
-        area.setFont(
-                new Font(
-                        "Monospaced",
-                        Font.PLAIN,
-                        14));
-
-        area.append(
-                "PARKING ACTIVITY TIMELINE\n\n");
-
-        loadTimeline(area);
-
-        add(new JScrollPane(area));
-
-        setVisible(true);
+        	area.append("PARKING ACTIVITY TIMELINE\n\n");
+        	loadTimeline(area);
+        	add(new JScrollPane(area));
+        	setVisible(true);
     }
 
     private void loadTimeline(
-            JTextArea area) {
-
+    		
+        JTextArea area) {
+ 
         String sql =
-                "SELECT * FROM parking_report";
+          "SELECT * FROM parking_report";
 
         try {
 
-            Connection conn =
-                    DatabaseConnection.getConnection();
+            Connection conn =  DatabaseConnection.getConnection();
 
-            PreparedStatement pst =
-                    conn.prepareStatement(sql);
+            PreparedStatement pst = conn.prepareStatement(sql);
 
-            ResultSet rs =
-                    pst.executeQuery();
+            ResultSet rs = pst.executeQuery();
 
-            while(rs.next()) {
+        while(rs.next()) {
 
-                String plate =
-                        rs.getString("plate");
+            String plate = rs.getString("plate");
 
-                String duration =
-                        rs.getString("duration");
+            String duration = rs.getString("duration");
 
-                if(duration == null) {
+                if(duration == null) {duration = "0h 0m";}
 
-                    duration = "0h 0m";
-                }
+                	String[] parts = duration.split("[hm ]+");
 
-                String[] parts =
-                        duration.split("[hm ]+");
+                	int hours = Integer.parseInt(parts[0]);
 
-                int hours =
-                        Integer.parseInt(parts[0]);
+                	int minutes =Integer.parseInt(parts[1]);
 
-                int minutes =
-                        Integer.parseInt(parts[1]);
-
-                int totalMinutes =
-                        (hours * 60) + minutes;
+                	int totalMinutes = (hours * 60) + minutes;
 
                 // 1 block = 2 minutes
-                int blocks =
-                        Math.max(1,
-                                totalMinutes / 2);
+                	int blocks = Math.max(1, totalMinutes / 2);
 
-                StringBuilder bars =
-                        new StringBuilder();
+                	StringBuilder bars = new StringBuilder();
 
-                for(int j = 0;
-                    j < blocks;
-                    j++) {
+                	for(int j = 0; j < blocks; j++) {
 
-                    bars.append("█");
-                }
+                		bars.append("█");
+                	}
 
-                area.append(
-                        String.format(
-                                "%-12s %-30s %s%n",
-                                plate,
-                                bars.toString(),
-                                duration));
-            }
+                		area.append(
+                        String.format("%-12s %-30s %s%n", plate, bars.toString(), duration));
+        }
 
             conn.close();
 

@@ -5,8 +5,7 @@ import java.sql.DriverManager;
 
 public class DatabaseConnection {
 	
-	private static final String URL =
-			"jdbc:mysql://localhost:3306/parking_database";
+	private static final String URL = "jdbc:mysql://localhost:3306/parking_database";
 	
 	private static final String USER = "root";
 
@@ -16,10 +15,7 @@ public class DatabaseConnection {
 
         try {
 
-            return DriverManager.getConnection(
-                URL,
-                USER,
-                PASSWORD
+            return DriverManager.getConnection(URL, USER, PASSWORD
             );
 
         } catch (Exception e) {

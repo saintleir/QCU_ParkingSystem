@@ -37,314 +37,171 @@ public class DashboardFrame extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null);
 
-        getContentPane().setBackground(
-                new Color(44, 18, 88));
+        getContentPane().setBackground(new Color(44, 18, 88));
 
-        JLabel title =
-                new JLabel(
-                        "UNIVERSITY PARKING",
-                        SwingConstants.CENTER);
+        JLabel title = new JLabel("UNIVERSITY PARKING", SwingConstants.CENTER);
 
-        title.setForeground(Color.WHITE);
+        	title.setForeground(Color.WHITE);
+        	title.setFont(new Font("Arial", Font.BOLD, 24));
+        	title.setBounds(100, 40, 330, 35);
+        	add(title);
 
-        title.setFont(
-                new Font(
-                        "Arial",
-                        Font.BOLD,
-                        24));
+        JLabel subtitle = new JLabel("MANAGEMENT SYSTEM", SwingConstants.CENTER);
 
-        title.setBounds(
-                100,
-                40,
-                330,
-                35);
+        	subtitle.setForeground(Color.WHITE);
+        	subtitle.setBounds(100, 70, 330, 20);
+        	add(subtitle);
 
-        add(title);
+        JLabel lblOwner = new JLabel("Student ID / Owner Name");
 
-        JLabel subtitle =
-                new JLabel(
-                        "MANAGEMENT SYSTEM",
-                        SwingConstants.CENTER);
-
-        subtitle.setForeground(Color.WHITE);
-
-        subtitle.setBounds(
-                100,
-                70,
-                330,
-                20);
-
-        add(subtitle);
-
-        JLabel lblOwner =
-                new JLabel(
-                        "Student ID / Owner Name");
-
-        lblOwner.setForeground(
-                Color.WHITE);
-
-        lblOwner.setBounds(
-                70,
-                130,
-                250,
-                20);
-
-        add(lblOwner);
+        	lblOwner.setForeground(Color.WHITE);
+        	lblOwner.setBounds(70, 130, 250, 20);
+        	add(lblOwner);
 
         txtOwner = new JTextField();
 
-        txtOwner.setBounds(
-                70,
-                155,
-                380,
-                35);
+        	txtOwner.setBounds(70, 155, 380, 35);
+        	addPlaceholder(txtOwner, "Student ID / Owner Name");
+        	add(txtOwner);
 
-        addPlaceholder(
-                txtOwner,
-                "Student ID / Owner Name");
+        JLabel lblPlate = new JLabel("Vehicle Plate Number");
 
-        add(txtOwner);
-
-        JLabel lblPlate =
-                new JLabel(
-                        "Vehicle Plate Number");
-
-        lblPlate.setForeground(
-                Color.WHITE);
-
-        lblPlate.setBounds(
-                70,
-                210,
-                250,
-                20);
-
-        add(lblPlate);
+        	lblPlate.setForeground(Color.WHITE);
+        	lblPlate.setBounds(70, 210, 250, 20);
+        	add(lblPlate);
 
         txtPlate = new JTextField();
 
-        txtPlate.setBounds(
-                70,
-                235,
-                380,
-                35);
+        	txtPlate.setBounds(70, 235, 380, 35);
+        	addPlaceholder(txtPlate, "Vehicle Plate Number");
+        	add(txtPlate);
 
-        addPlaceholder(
-                txtPlate,
-                "Vehicle Plate Number");
+        JLabel lblVehicle = new JLabel("Vehicle Type");
 
-        add(txtPlate);
+        	lblVehicle.setForeground(Color.WHITE);
+        	lblVehicle.setBounds(70, 290, 250, 20);
+        	add(lblVehicle);
 
-        JLabel lblVehicle =
-                new JLabel(
-                        "Vehicle Type");
+        cmbVehicle = new JComboBox<>(new String[]{"Car", "Motorcycle"});
 
-        lblVehicle.setForeground(
-                Color.WHITE);
+        	cmbVehicle.setBounds(70, 315, 380, 35);
+        	add(cmbVehicle);
 
-        lblVehicle.setBounds(
-                70,
-                290,
-                250,
-                20);
+        rbTimeIn = new JRadioButton("TIME IN", true);
 
-        add(lblVehicle);
+        	rbTimeIn.setOpaque(false);
+        	rbTimeIn.setForeground(Color.WHITE);
+        
+        rbTimeOut = new JRadioButton("TIME OUT");
 
-        cmbVehicle =
-                new JComboBox<>(
-                        new String[]{
-                                "Car",
-                                "Motorcycle"
-                        });
+        	rbTimeOut.setOpaque(false);
+        	rbTimeOut.setForeground(Color.WHITE);
 
-        cmbVehicle.setBounds(
-                70,
-                315,
-                380,
-                35);
+        ButtonGroup group = new ButtonGroup();
 
-        add(cmbVehicle);
+        	group.add(rbTimeIn);
+        		rbTimeIn.setBounds(120, 370, 100, 30);
+        	group.add(rbTimeOut);
+        		rbTimeOut.setBounds(250, 370, 120, 30);
+        
+        	add(rbTimeIn);
+        	add(rbTimeOut);
 
-        rbTimeIn =
-                new JRadioButton(
-                        "TIME IN",
-                        true);
+        JButton btnSubmit = new JButton("SUBMIT");
 
-        rbTimeOut =
-                new JRadioButton(
-                        "TIME OUT");
+        	btnSubmit.setBounds(70, 430, 380, 45);
+        	add(btnSubmit);
 
-        rbTimeIn.setOpaque(false);
-        rbTimeOut.setOpaque(false);
+        JButton btnReports = new JButton("REPORTS");
 
-        rbTimeIn.setForeground(
-                Color.WHITE);
+        	btnReports.setBounds(70, 500, 180, 35);
+        	add(btnReports);
 
-        rbTimeOut.setForeground(
-                Color.WHITE);
+        JButton btnTimeline = new JButton("TIMELINE");
 
-        ButtonGroup group =
-                new ButtonGroup();
+        	btnTimeline.setBounds(270, 500, 180, 35);
+        	add(btnTimeline);
 
-        group.add(rbTimeIn);
-        group.add(rbTimeOut);
+        	
+// action here
+        	
+        btnSubmit.addActionListener(new ActionListener() {
 
-        rbTimeIn.setBounds(
-                120,
-                370,
-                100,
-                30);
+             
+             public void actionPerformed(ActionEvent e) {
+                processTransaction();
+                }
+        });
 
-        rbTimeOut.setBounds(
-                250,
-                370,
-                120,
-                30);
+        btnReports.addActionListener(new ActionListener() {
+ 
+             public void actionPerformed(ActionEvent e) {
+                new ReportsFrame();
+                }
+        });
 
-        add(rbTimeIn);
-        add(rbTimeOut);
+        btnTimeline.addActionListener(new ActionListener() {
 
-        JButton btnSubmit =
-                new JButton("SUBMIT");
-
-        btnSubmit.setBounds(
-                70,
-                430,
-                380,
-                45);
-
-        add(btnSubmit);
-
-        JButton btnReports =
-                new JButton("REPORTS");
-
-        btnReports.setBounds(
-                70,
-                500,
-                180,
-                35);
-
-        add(btnReports);
-
-        JButton btnTimeline =
-                new JButton("TIMELINE");
-
-        btnTimeline.setBounds(
-                270,
-                500,
-                180,
-                35);
-
-        add(btnTimeline);
-
-        btnSubmit.addActionListener(
-                new ActionListener() {
-
-                    @Override
-                    public void actionPerformed(
-                            ActionEvent e) {
-
-                        processTransaction();
-                    }
-                });
-
-        btnReports.addActionListener(
-                new ActionListener() {
-
-                    @Override
-                    public void actionPerformed(
-                            ActionEvent e) {
-
-                        new ReportsFrame();
-                    }
-                });
-
-        btnTimeline.addActionListener(
-                new ActionListener() {
-
-                    @Override
-                    public void actionPerformed(
-                            ActionEvent e) {
-
-                        new GanttFrame();
-                    }
-                });
+             public void actionPerformed(ActionEvent e) {
+                new GanttFrame();
+                }
+        });
 
         setVisible(true);
     }
+    
+    // methods
 
     private void processTransaction() {
 
-        String owner =
-                txtOwner.getText().trim();
+        String owner = txtOwner.getText().trim();
 
-        String plate =
-                txtPlate.getText()
-                        .trim()
-                        .toUpperCase();
+        String plate = txtPlate.getText().trim().toUpperCase();
 
-        if(plate.isEmpty()
-                || plate.equals("Vehicle Plate Number")) {
+        if(plate.isEmpty() || plate.equals("Vehicle Plate Number")) {
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "Enter a plate number.");
+            JOptionPane.showMessageDialog(this, "Enter a plate number.");
 
             return;
         }
 
         if(rbTimeIn.isSelected()) {
 
-            if(owner.isEmpty()
-                    || owner.equals(
-                    "Student ID / Owner Name")) {
+            if(owner.isEmpty() || owner.equals("Student ID / Owner Name")) {
 
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Enter a Student ID or Owner Name.");
+                JOptionPane.showMessageDialog(this, "Enter a Student ID or Owner Name.");
 
                 return;
             }
 
-            boolean student =
-                    owner.matches(
-                            "\\d{2}-\\d{4}");
+            boolean student = owner.matches("\\d{2}-\\d{4}");
 
-            boolean personnel =
-                    owner.matches(
-                            "[A-Za-z ]{3,}");
+            boolean personnel = owner.matches("[A-Za-z ]{3,}");
 
-            if(!student && !personnel) {
+            	if(!student && !personnel) {
 
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Invalid Student ID.\nExample: 26-0425");
+            		JOptionPane.showMessageDialog(this, "Invalid Student ID.\nExample: 26-0425");
+
+            		return;
+            	}
+
+            String vehicleType = (String) cmbVehicle.getSelectedItem();
+
+            	if(isVehicleAlreadyParked(plate)) {
+
+            		JOptionPane.showMessageDialog(this, "Vehicle already parked.");
+
+            		return;
+            	}
+
+        if(vehicleType.equals("Car")) {
+
+            if(availableCars == 0) {
+
+                JOptionPane.showMessageDialog(this, "Car Parking Full");
 
                 return;
             }
-
-            String vehicleType =
-                    (String) cmbVehicle
-                            .getSelectedItem();
-
-            if(isVehicleAlreadyParked(plate)) {
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Vehicle already parked.");
-
-                return;
-            }
-
-            if(vehicleType.equals("Car")) {
-
-                if(availableCars == 0) {
-
-                    JOptionPane.showMessageDialog(
-                            this,
-                            "Car Parking Full");
-
-                    return;
-                }
 
                 availableCars--;
 
@@ -352,9 +209,7 @@ public class DashboardFrame extends JFrame {
 
                 if(availableMotorcycles == 0) {
 
-                    JOptionPane.showMessageDialog(
-                            this,
-                            "Motorcycle Parking Full");
+                    JOptionPane.showMessageDialog(this, "Motorcycle Parking Full");
 
                     return;
                 }
@@ -362,29 +217,21 @@ public class DashboardFrame extends JFrame {
                 availableMotorcycles--;
             }
 
-            saveTimeInToDatabase(
-                    owner,
-                    plate,
-                    vehicleType);
+            saveTimeInToDatabase( owner, plate, vehicleType);
 
-            showParkingReport(
-                    owner,
-                    plate,
-                    "TIME IN SUCCESSFUL");
+            showParkingReport(owner, plate, "TIME IN SUCCESSFUL");
 
             resetForm();
 
         } else {
 
-            processTimeOutFromDatabase(
-                    plate);
+            processTimeOutFromDatabase(plate);
 
             resetForm();
         }
     }
     
-    private boolean isVehicleAlreadyParked(
-            String plate) {
+    private boolean isVehicleAlreadyParked(String plate) {
 
         String sql =
                 "SELECT * FROM parking_report " +
@@ -393,16 +240,13 @@ public class DashboardFrame extends JFrame {
 
         try {
 
-            Connection conn =
-                    DatabaseConnection.getConnection();
+            Connection conn = DatabaseConnection.getConnection();
 
-            PreparedStatement pst =
-                    conn.prepareStatement(sql);
+            PreparedStatement pst = conn.prepareStatement(sql);
 
             pst.setString(1, plate);
 
-            ResultSet rs =
-                    pst.executeQuery();
+            ResultSet rs = pst.executeQuery();
 
             boolean found = rs.next();
 
@@ -419,10 +263,7 @@ public class DashboardFrame extends JFrame {
     }
     
     
-    private void saveTimeInToDatabase(
-            String owner,
-            String plate,
-            String vehicleType) {
+    private void saveTimeInToDatabase(String owner, String plate, String vehicleType) {
 
         String sql =
                 "INSERT INTO parking_report " +
@@ -431,20 +272,15 @@ public class DashboardFrame extends JFrame {
 
         try {
 
-            Connection conn =
-                    DatabaseConnection.getConnection();
+            Connection conn = DatabaseConnection.getConnection();
 
-            PreparedStatement pst =
-                    conn.prepareStatement(sql);
+            PreparedStatement pst = conn.prepareStatement(sql);
 
             pst.setString(1, owner);
             pst.setString(2, plate);
             pst.setString(3, vehicleType);
 
-            pst.setTimestamp(
-                    4,
-                    new Timestamp(
-                            System.currentTimeMillis()));
+            pst.setTimestamp(4, new Timestamp(System.currentTimeMillis()));
 
             pst.setString(5, "PARKED");
 
@@ -458,9 +294,7 @@ public class DashboardFrame extends JFrame {
         }
     }
     
-    private void updateTimeOutInDatabase(
-            String plate,
-            String duration) {
+    private void updateTimeOutInDatabase(String plate, String duration) {
 
     	String sql =
     	        "UPDATE parking_report " +
@@ -469,28 +303,17 @@ public class DashboardFrame extends JFrame {
 
         try {
 
-            Connection conn =
-                    DatabaseConnection.getConnection();
+            Connection conn = DatabaseConnection.getConnection();
 
-            PreparedStatement pst =
-                    conn.prepareStatement(sql);
+            PreparedStatement pst = conn.prepareStatement(sql);
 
-            pst.setTimestamp(
-                    1,
-                    new Timestamp(
-                            System.currentTimeMillis()));
+            pst.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
 
-            pst.setString(
-                    2,
-                    duration);
+            pst.setString(2, duration);
 
-            pst.setString(
-                    3,
-                    "EXITED");
+            pst.setString(3, "EXITED");
 
-            pst.setString(
-                    4,
-                    plate);
+            pst.setString(4, plate);
 
             pst.executeUpdate();
 
@@ -513,58 +336,38 @@ public class DashboardFrame extends JFrame {
 
         try {
 
-            Connection conn =
-                    DatabaseConnection.getConnection();
+            Connection conn = DatabaseConnection.getConnection();
 
-            PreparedStatement pst =
-                    conn.prepareStatement(
-                            searchSql);
+            PreparedStatement pst = conn.prepareStatement(searchSql);
 
             pst.setString(1, plate);
 
-            ResultSet rs =
-                    pst.executeQuery();
+            ResultSet rs = pst.executeQuery();
 
             if(!rs.next()) {
 
-                JOptionPane.showMessageDialog(
-                        this,
-                        "Plate Number Not Found");
+                JOptionPane.showMessageDialog(this, "Plate Number Not Found");
 
                 conn.close();
 
                 return;
             }
 
-            String vehicleType =
-                    rs.getString("vehicle");
+            String vehicleType = rs.getString("vehicle");
 
-            Timestamp timeIn =
-                    rs.getTimestamp(
-                            "time_in");
+            Timestamp timeIn = rs.getTimestamp("time_in");
 
-            Timestamp timeOut =
-                    new Timestamp(
-                            System.currentTimeMillis());
+            Timestamp timeOut = new Timestamp(System.currentTimeMillis());
 
-            long millis =
-                    timeOut.getTime()
-                    - timeIn.getTime();
+            long millis = timeOut.getTime() - timeIn.getTime();
 
-            long hours =
-                    millis / (1000 * 60 * 60);
+            long hours = millis / (1000 * 60 * 60);
 
-            long minutes =
-                    (millis / (1000 * 60))
-                    % 60;
+            long minutes = (millis / (1000 * 60)) % 60;
 
-            String duration =
-                    hours + "h "
-                    + minutes + "m";
+            String duration = hours + "h " + minutes + "m";
 
-            updateTimeOutInDatabase(
-                    plate,
-                    duration);
+            updateTimeOutInDatabase(plate, duration);
 
             if(vehicleType.equals("Car")) {
 
@@ -575,11 +378,7 @@ public class DashboardFrame extends JFrame {
                 availableMotorcycles++;
             }
 
-            JOptionPane.showMessageDialog(
-                    this,
-                    "TIME OUT SUCCESSFUL\n\n" +
-                    "Duration: " +
-                    duration);
+            JOptionPane.showMessageDialog(this, "TIME OUT SUCCESSFUL\n\n" + "Duration: " + duration);
 
             conn.close();
 
@@ -590,99 +389,63 @@ public class DashboardFrame extends JFrame {
     }
     
 
-    private void showParkingReport(
-            String owner,
-            String plate,
-            String transaction) {
+    private void showParkingReport(String owner, String plate, String transaction) {
 
-        int occupiedCars =
-                totalCars -
-                availableCars;
+        int occupiedCars = totalCars - availableCars;
 
-        int occupiedMotor =
-                totalMotorcycles -
-                availableMotorcycles;
+        int occupiedMotor = totalMotorcycles - availableMotorcycles;
 
-        int occupied =
-                occupiedCars +
-                occupiedMotor;
+        int occupied = occupiedCars + occupiedMotor;
 
-        int total =
-                totalCars +
-                totalMotorcycles;
+        int total = totalCars + totalMotorcycles;
 
-        double occupancy =
-                occupied * 100.0
-                        / total;
+        double occupancy = occupied * 100.0 / total;
 
         String status;
 
         if(occupancy >= 90) {
 
-            status =
-                    "HIGH CONGESTION ALERT";
+            status = "HIGH CONGESTION ALERT";
 
         } else if(occupancy >= 75) {
 
-            status =
-                    "WARNING";
+            status = "WARNING";
 
         } else {
 
-            status =
-                    "NORMAL";
+            status = "NORMAL";
         }
 
         String report =
 
                 transaction +
 
-                "\n\nOwner: " +
-                owner +
+                "\n\nOwner: " + owner +
 
-                "\nPlate: " +
-                plate +
+                "\nPlate: " + plate +
 
-                "\n\nCAR AVAILABLE: " +
-                availableCars +
-                "/" +
-                totalCars +
+                "\n\nCAR AVAILABLE: " + availableCars + "/" + totalCars +
 
-                "\nMOTORCYCLE AVAILABLE: " +
-                availableMotorcycles +
-                "/" +
-                totalMotorcycles +
+                "\nMOTORCYCLE AVAILABLE: " + availableMotorcycles + "/" + totalMotorcycles +
 
-                "\n\nOccupancy: " +
-                String.format(
-                        "%.2f%%",
-                        occupancy) +
+                "\n\nOccupancy: " + String.format("%.2f%%", occupancy) +
 
-                "\nStatus: " +
-                status;
+                "\nStatus: " + status;
 
-        JOptionPane.showMessageDialog(
-                this,
-                report,
-                "Parking Availability Report",
-                occupancy >= 90
+        JOptionPane.showMessageDialog(this, report, "Parking Availability Report", occupancy >= 90
                         ? JOptionPane.WARNING_MESSAGE
                         : JOptionPane.INFORMATION_MESSAGE);
     }
 
     private void resetForm() {
 
-        txtOwner.setText(
-                "Student ID / Owner Name");
+        txtOwner.setText("Student ID / Owner Name");
 
-        txtOwner.setForeground(
-                Color.GRAY);
+        txtOwner.setForeground(Color.GRAY);
 
-        txtPlate.setText(
-                "Vehicle Plate Number");
+        txtPlate.setText("Vehicle Plate Number");
 
-        txtPlate.setForeground(
-                Color.GRAY);
+        txtPlate.setForeground(Color.GRAY);
 
         cmbVehicle.setSelectedIndex(0);
 
@@ -691,49 +454,36 @@ public class DashboardFrame extends JFrame {
         txtOwner.requestFocus();
     }
 
-    private void addPlaceholder(
-            JTextField field,
-            String placeholder) {
+    private void addPlaceholder(JTextField field, String placeholder) {
 
         field.setText(placeholder);
 
-        field.setForeground(
-                Color.GRAY);
+        field.setForeground(Color.GRAY);
 
-        field.addFocusListener(
-                new FocusAdapter() {
+        field.addFocusListener(new FocusAdapter() {
 
-                    @Override
-                    public void focusGained(
-                            FocusEvent e) {
+        @Override
+        public void focusGained(FocusEvent e) {
 
-                        if(field.getText()
-                                .equals(
-                                        placeholder)) {
+              if(field.getText().equals(placeholder)) {
 
-                            field.setText("");
+                  field.setText("");
 
-                            field.setForeground(
-                                    Color.BLACK);
-                        }
-                    }
+                  field.setForeground(Color.BLACK);
+              }
+        }
 
-                    @Override
-                    public void focusLost(
-                            FocusEvent e) {
+        @Override
+        public void focusLost(FocusEvent e) {
 
-                        if(field.getText()
-                                .trim()
-                                .isEmpty()) {
+              if(field.getText().trim().isEmpty()) {
 
-                            field.setText(
-                                    placeholder);
+                  field.setText(placeholder);
 
-                            field.setForeground(
-                                    Color.GRAY);
-                        }
-                    }
-                });
+                  field.setForeground(Color.GRAY);
+              }
+        }
+     });
     }
 
     public static void main(

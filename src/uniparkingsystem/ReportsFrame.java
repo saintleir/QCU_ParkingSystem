@@ -20,23 +20,13 @@ public class ReportsFrame extends JFrame {
         setSize(900, 450);
         setLocationRelativeTo(null);
 
-        String[] columns = {
-                "Owner",
-                "Plate",
-                "Vehicle",
-                "Time In",
-                "Time Out",
-                "Duration",
-                "Status"
-        };
+        String[] columns = {"Owner", "Plate", "Vehicle", "Time In", "Time Out", "Duration", "Status"};
 
         model = new DefaultTableModel(columns, 0);
 
         table = new JTable(model);
 
-        add(
-                new JScrollPane(table),
-                BorderLayout.CENTER);
+        add(new JScrollPane(table), BorderLayout.CENTER);
 
         loadRecords();
 
@@ -47,31 +37,25 @@ public class ReportsFrame extends JFrame {
 
         model.setRowCount(0);
 
-        String sql =
-                "SELECT * FROM parking_report";
+        String sql = "SELECT * FROM parking_report";
 
         try {
 
-            Connection conn =
-                    DatabaseConnection.getConnection();
+            Connection conn = DatabaseConnection.getConnection();
 
-            PreparedStatement pst =
-                    conn.prepareStatement(sql);
+            PreparedStatement pst = conn.prepareStatement(sql);
 
-            ResultSet rs =
-                    pst.executeQuery();
+            ResultSet rs = pst.executeQuery();
 
-            while (rs.next()) {
+            while (rs.next()) {model.addRow(new Object[]{
 
-                model.addRow(new Object[]{
-
-                        rs.getString("owner"),
-                        rs.getString("plate"),
-                        rs.getString("vehicle"),
-                        rs.getTimestamp("time_in"),
-                        rs.getTimestamp("time_out"),
-                        rs.getString("duration"),
-                        rs.getString("status")
+            		rs.getString("owner"),
+            		rs.getString("plate"),
+            		rs.getString("vehicle"),
+            		rs.getTimestamp("time_in"),
+            		rs.getTimestamp("time_out"),
+            		rs.getString("duration"),
+            		rs.getString("status")
                 });
             }
 
