@@ -37,7 +37,7 @@ public class DashboardFrame extends JFrame {
         setLocationRelativeTo(null);
         setLayout(null);
 
-        getContentPane().setBackground(new Color(44, 18, 88));
+        getContentPane().setBackground(new Color(33, 104, 187));
 
         JLabel title = new JLabel("UNIVERSITY PARKING", SwingConstants.CENTER);
 
