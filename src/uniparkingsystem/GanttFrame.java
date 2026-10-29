@@ -1,10 +1,21 @@
 package uniparkingsystem;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+
+import java.util.Date;
+
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+
+import org.jfree.data.gantt.Task;
+import org.jfree.data.gantt.TaskSeries;
+import org.jfree.data.gantt.TaskSeriesCollection;
 
 public class GanttFrame extends JFrame {
 
@@ -13,71 +24,78 @@ public class GanttFrame extends JFrame {
     public GanttFrame() {
 
         setTitle("Parking Timeline");
-        setSize(700, 500);
+        setSize(1000, 600);
         setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        JTextArea area = new JTextArea();
+        TaskSeriesCollection dataset = createDataset();
 
-        	area.setEditable(false);
-        	area.setFont(
-            new Font("Monospaced", Font.PLAIN, 14));
+        JFreeChart chart = ChartFactory.createGanttChart( "University Parking Timeline", "Vehicle Plate", "Time",
+        dataset, true, true, false);
 
-        	area.append("PARKING ACTIVITY TIMELINE\n\n");
-        	loadTimeline(area);
-        	add(new JScrollPane(area));
+        ChartPanel chartPanel = new ChartPanel(chart);
+
+        	setContentPane(chartPanel);
         	setVisible(true);
     }
 
-    private void loadTimeline(
-    		
-        JTextArea area) {
- 
-        String sql =
-          "SELECT * FROM parking_report";
+    private TaskSeriesCollection createDataset() {
+
+        TaskSeries series = new TaskSeries("Parking Activity");
 
         try {
 
-            Connection conn =  DatabaseConnection.getConnection();
+            Connection conn = DatabaseConnection.getConnection();
+
+            String sql =
+                    "SELECT plate, time_in, time_out " +
+                    "FROM parking_report";
 
             PreparedStatement pst = conn.prepareStatement(sql);
 
             ResultSet rs = pst.executeQuery();
 
-        while(rs.next()) {
+            while (rs.next()) {
 
-            String plate = rs.getString("plate");
+                String plate = rs.getString("plate");
 
-            String duration = rs.getString("duration");
+                Timestamp timeIn = rs.getTimestamp("time_in");
 
-                if(duration == null) {duration = "0h 0m";}
+                Timestamp timeOut = rs.getTimestamp("time_out");
 
-                	String[] parts = duration.split("[hm ]+");
+                if (timeIn == null) {
+                    continue;
+                }
 
-                	int hours = Integer.parseInt(parts[0]);
+                //if vehicle is still parked extend bar until current time
+                
+                if (timeOut == null) {
 
-                	int minutes =Integer.parseInt(parts[1]);
+                    timeOut = new Timestamp(System.currentTimeMillis());
+                }
 
-                	int totalMinutes = (hours * 60) + minutes;
+                Date start = new Date(timeIn.getTime());
 
-                // 1 block = 2 minutes
-                	int blocks = Math.max(1, totalMinutes / 2);
+                Date end = new Date(timeOut.getTime());
 
-                	StringBuilder bars = new StringBuilder();
+                Task task = new Task(plate, start, end);
 
-                	for(int j = 0; j < blocks; j++) {
+                series.add(task);
+            }
 
-                		bars.append("█");
-                	}
-
-                		area.append(
-                        String.format("%-12s %-30s %s%n", plate, bars.toString(), duration));
-        }
-
+            rs.close();
+            pst.close();
             conn.close();
 
-        } catch(Exception e) {
+        } catch (Exception e) {
 
             e.printStackTrace();
         }
+
+        TaskSeriesCollection dataset = new TaskSeriesCollection();
+
+        dataset.add(series);
+
+        return dataset;
     }
 }
