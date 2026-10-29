@@ -31,7 +31,7 @@ public class DashboardFrame extends JFrame {
 
     public DashboardFrame() {
 
-        setTitle("University Parking System");
+        setTitle("QCU Parking System");
         setSize(550, 650);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -39,14 +39,14 @@ public class DashboardFrame extends JFrame {
 
         getContentPane().setBackground(new Color(33, 104, 187));
 
-        JLabel title = new JLabel("UNIVERSITY PARKING", SwingConstants.CENTER);
+        JLabel title = new JLabel("QUEZON CITY UNIVERSITY", SwingConstants.CENTER);
 
         	title.setForeground(Color.WHITE);
         	title.setFont(new Font("Arial", Font.BOLD, 24));
         	title.setBounds(100, 40, 330, 35);
         	add(title);
 
-        JLabel subtitle = new JLabel("MANAGEMENT SYSTEM", SwingConstants.CENTER);
+        JLabel subtitle = new JLabel("PARKING MANAGEMENT SYSTEM", SwingConstants.CENTER);
 
         	subtitle.setForeground(Color.WHITE);
         	subtitle.setBounds(100, 70, 330, 20);
